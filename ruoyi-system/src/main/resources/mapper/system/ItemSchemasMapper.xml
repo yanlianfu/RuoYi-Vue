@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ItemSchemasMapper">
+    
+    <resultMap type="ItemSchemas" id="ItemSchemasResult">
+        <result property="schemaId"    column="schema_id"    />
+        <result property="schemaName"    column="schema_name"    />
+        <result property="schemaContext"    column="schema_context"    />
+    </resultMap>
+
+    <sql id="selectItemSchemasVo">
+        select schema_id, schema_name, schema_context from item_schemas
+    </sql>
+
+    <select id="selectItemSchemasList" parameterType="ItemSchemas" resultMap="ItemSchemasResult">
+        <include refid="selectItemSchemasVo"/>
+        <where>  
+            <if test="schemaName != null  and schemaName != ''"> and schema_name like concat('%', #{schemaName}, '%')</if>
+            <if test="schemaContext != null  and schemaContext != ''"> and schema_context = #{schemaContext}</if>
+        </where>
+    </select>
+    
+    <select id="selectItemSchemasBySchemaId" parameterType="Long" resultMap="ItemSchemasResult">
+        <include refid="selectItemSchemasVo"/>
+        where schema_id = #{schemaId}
+    </select>
+        
+    <insert id="insertItemSchemas" parameterType="ItemSchemas" useGeneratedKeys="true" keyProperty="schemaId">
+        insert into item_schemas
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schemaName != null">schema_name,</if>
+            <if test="schemaContext != null">schema_context,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schemaName != null">#{schemaName},</if>
+            <if test="schemaContext != null">#{schemaContext},</if>
+         </trim>
+    </insert>
+
+    <update id="updateItemSchemas" parameterType="ItemSchemas">
+        update item_schemas
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schemaName != null">schema_name = #{schemaName},</if>
+            <if test="schemaContext != null">schema_context = #{schemaContext},</if>
+        </trim>
+        where schema_id = #{schemaId}
+    </update>
+
+    <delete id="deleteItemSchemasBySchemaId" parameterType="Long">
+        delete from item_schemas where schema_id = #{schemaId}
+    </delete>
+
+    <delete id="deleteItemSchemasBySchemaIds" parameterType="String">
+        delete from item_schemas where schema_id in 
+        <foreach item="schemaId" collection="array" open="(" separator="," close=")">
+            #{schemaId}
+        </foreach>
+    </delete>
+</mapper>
