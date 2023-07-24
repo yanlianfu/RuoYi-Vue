@@ -7,59 +7,76 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 页面配置对象 item_schemas
- * 
+ *
  * @author ruoyi
  * @date 2023-07-04
  */
-public class ItemSchemas extends BaseEntity
-{
+public class ItemSchemas extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /**
+     * $column.columnComment
+     */
     private Long schemaId;
 
-    /** 页面名称 */
+    /**
+     * 页面名称
+     */
     @Excel(name = "页面名称")
     private String schemaName;
 
-    /** 页面配置内容 */
+    /**
+     * 页面配置内容
+     */
     @Excel(name = "页面配置内容")
     private String schemaContext;
 
-    public void setSchemaId(Long schemaId) 
-    {
+
+    /**
+     * 页面相关包数据
+     */
+    @Excel(name = "页面相关包数据")
+    private String schemaPackages;
+
+    public void setSchemaId(Long schemaId) {
         this.schemaId = schemaId;
     }
 
-    public Long getSchemaId() 
-    {
+    public Long getSchemaId() {
         return schemaId;
     }
-    public void setSchemaName(String schemaName) 
-    {
+
+    public void setSchemaName(String schemaName) {
         this.schemaName = schemaName;
     }
 
-    public String getSchemaName() 
-    {
+    public String getSchemaName() {
         return schemaName;
     }
-    public void setSchemaContext(String schemaContext) 
-    {
+
+    public void setSchemaContext(String schemaContext) {
         this.schemaContext = schemaContext;
     }
 
-    public String getSchemaContext() 
-    {
+    public String getSchemaContext() {
         return schemaContext;
+    }
+
+    public String getSchemaPackages() {
+        return schemaPackages;
+    }
+
+    public void setSchemaPackages(String schemaPackages) {
+        this.schemaPackages = schemaPackages;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("schemaId", getSchemaId())
-            .append("schemaName", getSchemaName())
-            .append("schemaContext", getSchemaContext())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("schemaId", getSchemaId())
+                .append("schemaName", getSchemaName())
+                .append("schemaContext", getSchemaContext())
+                .append("schemaPackages", getSchemaPackages())
+                .toString();
     }
 }

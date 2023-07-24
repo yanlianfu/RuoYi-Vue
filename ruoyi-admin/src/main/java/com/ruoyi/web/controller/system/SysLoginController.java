@@ -2,11 +2,12 @@ package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import java.util.Set;
+
+import com.ruoyi.system.domain.ItemSchemas;
+import com.ruoyi.system.service.IItemSchemasService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysMenu;
@@ -34,6 +35,23 @@ public class SysLoginController
     @Autowired
     private SysPermissionService permissionService;
 
+    @Autowired
+    private IItemSchemasService itemSchemasService;
+    @PostMapping(value = "/schemasAdd")
+    public AjaxResult add(@RequestBody ItemSchemas itemSchemas)
+    {
+        System.out.println("schemas/add");
+        return itemSchemasService.insertItemSchemas(itemSchemas) > 0 ? AjaxResult.success() : AjaxResult.error();
+    }
+    /**
+     * 获取页面配置详细信息
+     */
+    @GetMapping(value = "/schemas/{schemaId}")
+    public AjaxResult getInfo(@PathVariable("schemaId") Long schemaId)
+    {
+        System.out.println("schemas/id");
+        return AjaxResult.success(itemSchemasService.selectItemSchemasBySchemaId(schemaId));
+    }
     /**
      * 登录方法
      * 
@@ -48,6 +66,23 @@ public class SysLoginController
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
         ajax.put(Constants.TOKEN, token);
+        return ajax;
+    }
+
+    @GetMapping("/test")
+    public AjaxResult loginlist()
+    {
+        System.out.println("get test!");
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("state", "ok");
+        return ajax;
+    }
+
+    @GetMapping("/test/t1")
+    public AjaxResult loginlist1()
+    {
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("state", "ok");
         return ajax;
     }
 

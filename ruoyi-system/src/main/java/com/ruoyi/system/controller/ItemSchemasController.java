@@ -31,10 +31,11 @@ public class ItemSchemasController extends BaseController
     /**
      * 查询页面配置列表
      */
-    @PreAuthorize("@ss.hasPermi('system:schemas:list')")
+    //@PreAuthorize("@ss.hasPermi('system:schemas:list')")
     @GetMapping("/list")
     public TableDataInfo list(ItemSchemas itemSchemas)
     {
+        System.out.println("list");
         startPage();
         List<ItemSchemas> list = itemSchemasService.selectItemSchemasList(itemSchemas);
         return getDataTable(list);
@@ -66,11 +67,12 @@ public class ItemSchemasController extends BaseController
     /**
      * 新增页面配置
      */
-    @PreAuthorize("@ss.hasPermi('system:schemas:add')")
+    //@PreAuthorize("@ss.hasPermi('system:schemas:add')")
     @Log(title = "页面配置", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ItemSchemas itemSchemas)
     {
+
         return toAjax(itemSchemasService.insertItemSchemas(itemSchemas));
     }
 

@@ -8,10 +8,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="schemaId"    column="schema_id"    />
         <result property="schemaName"    column="schema_name"    />
         <result property="schemaContext"    column="schema_context"    />
+        <result property="schemaPackages"    column="schema_packages"    />
     </resultMap>
 
     <sql id="selectItemSchemasVo">
-        select schema_id, schema_name, schema_context from item_schemas
+        select schema_id, schema_name, schema_context, schema_packages from item_schemas
     </sql>
 
     <select id="selectItemSchemasList" parameterType="ItemSchemas" resultMap="ItemSchemasResult">
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="schemaName != null  and schemaName != ''"> and schema_name like concat('%', #{schemaName}, '%')</if>
             <if test="schemaContext != null  and schemaContext != ''"> and schema_context = #{schemaContext}</if>
+            <if test="schemaPackages != null  and schemaPackages != ''"> and schema_packages = #{schemaPackages}</if>
         </where>
     </select>
     
@@ -32,10 +34,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="schemaName != null">schema_name,</if>
             <if test="schemaContext != null">schema_context,</if>
+            <if test="schemaPackages != null">schema_packages,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="schemaName != null">#{schemaName},</if>
             <if test="schemaContext != null">#{schemaContext},</if>
+            <if test="schemaPackages != null">#{schemaPackages},</if>
          </trim>
     </insert>
 
@@ -44,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="schemaName != null">schema_name = #{schemaName},</if>
             <if test="schemaContext != null">schema_context = #{schemaContext},</if>
+            <if test="schemaPackages != null"> schema_packages = #{schemaPackages},</if>
         </trim>
         where schema_id = #{schemaId}
     </update>
